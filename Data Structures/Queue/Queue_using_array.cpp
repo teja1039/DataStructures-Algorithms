@@ -5,10 +5,12 @@ using namespace std;
 
 class Queue{
     int arr[MAX];
+    int f; //front
+    int b; //back
     int s; //size
 public:
     void createNewQueue(){
-        s = -1;
+        f = b = s = -1;
     }
     bool isFull(){
         if(s == MAX-1){
@@ -31,18 +33,22 @@ public:
             cout<<"The queue is full"<<endl;
         }
         else{
+            if(isEmpty()==1){
+                f=0;
+                b=-1;
+            }
+            b = (b+1)%MAX;
+            arr[b] = n;
             s++;
-            arr[s] = n;
         }
     }
-    int dequeue(){
+    void dequeue(){
         if(isEmpty()==1){
             cout<<"The queue is empty"<<endl;
-            return INT_MAX;
         }
         else{
             s--;
-            return arr[s+1];
+            f = (f+1)%MAX;
         }
     }
     int peek(){
@@ -51,7 +57,7 @@ public:
             return INT_MAX;
         }
         else{
-            return arr[s];
+            return arr[f];
         }
     }
 };
@@ -61,7 +67,8 @@ int main()
     q.createNewQueue();
     q.enqueue(1);
     q.enqueue(4);
-    cout<<q.dequeue()<<endl;
+    cout<<q.peek()<<endl;
+    q.dequeue();
     cout<<q.peek()<<endl;
     return 0;
 }
